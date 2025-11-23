@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Image Color Picker - Extract Colors from Images Online | Free Tool</title>
+    <meta name="title" content="Image Color Picker - Extract Colors from Images Online | Free Tool">
+    <meta name="description"
+        content="Free online image color picker tool. Upload, drag & drop, or paste images to extract color values in HEX, RGB, RGBA, HSL, and HSLA formats. 100% client-side and private.">
+    <meta name="keywords"
+        content="color picker, image color picker, hex color picker, rgb color extractor, color palette generator, eyedropper tool, color from image, online color picker">
+    <meta name="author" content="Grizz1e">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://picker.grizz1e.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://picker.grizz1e.com/">
+    <meta property="og:title" content="Image Color Picker - Extract Colors from Images Online | Free Tool">
+    <meta property="og:description"
+        content="Free online tool to extract color values from any image. Get HEX, RGB, HSL codes instantly. Upload or paste images - 100% client-side processing.">
+    <meta property="og:image" content="https://picker.grizz1e.com/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://picker.grizz1e.com/">
+    <meta property="twitter:title" content="Image Color Picker - Extract Colors from Images Online | Free Tool">
+    <meta property="twitter:description"
+        content="Free online tool to extract color values from any image. Get HEX, RGB, HSL codes instantly. Upload or paste images - 100% client-side processing.">
+    <meta property="twitter:image" content="https://picker.grizz1e.com/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Image Color Picker",
+        "description": "Free online image color picker tool to extract color values in HEX, RGB, RGBA, HSL, and HSLA formats from any image.",
+        "url": "https://picker.grizz1e.com/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Extract colors from images",
+            "Multiple color formats (HEX, RGB, RGBA, HSL, HSLA)",
+            "Drag and drop support",
+            "Paste from clipboard",
+            "Magnifier for precise color picking",
+            "100% client-side processing"
+        ]
+    }
+    </script>
+</head>
+
+<body>
+    <main class="container">
+        <header class="header">
+            <h1 class="title">
+                Image Color Picker
+            </h1>
+            <p class="subtitle">Extract colors from any image</p>
+        </header>
+
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-content">
+                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-label="Upload icon">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                <h2 class="upload-title">Drop your image here</h2>
+                <p class="upload-text">or click to browse, or paste from clipboard (Ctrl+V)</p>
+                <p class="upload-formats">Supports: JPG, PNG, GIF, WebP</p>
+                <input type="file" id="fileInput" accept="image/*" aria-label="Upload image file" hidden>
+            </div>
+        </div>
+
+        <div class="workspace" id="workspace" style="display: none;">
+            <div class="canvas-container">
+                <canvas id="canvas" aria-label="Image preview for color picking"></canvas>
+                <div class="magnifier" id="magnifier" style="display: none;">
+                    <canvas id="magnifierCanvas"></canvas>
+                    <div class="crosshair"></div>
+                </div>
+            </div>
+
+            <div class="color-info-panel">
+                <div class="selected-color-display">
+                    <div class="color-preview" id="colorPreview"></div>
+                    <div class="color-details">
+                        <h3 class="color-label">Selected Color</h3>
+                        <p class="color-coords" id="colorCoords">Click on the image to pick a color</p>
+                    </div>
+                </div>
+
+                <div class="color-formats">
+                    <div class="format-item">
+                        <label class="format-label">HEX</label>
+                        <div class="format-value-container">
+                            <input type="text" id="hexValue" class="format-value" readonly value="#000000">
+                            <button class="copy-btn" data-target="hexValue" title="Copy HEX">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="format-item">
+                        <label class="format-label">RGB</label>
+                        <div class="format-value-container">
+                            <input type="text" id="rgbValue" class="format-value" readonly value="rgb(0, 0, 0)">
+                            <button class="copy-btn" data-target="rgbValue" title="Copy RGB">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="format-item">
+                        <label class="format-label">RGBA</label>
+                        <div class="format-value-container">
+                            <input type="text" id="rgbaValue" class="format-value" readonly value="rgba(0, 0, 0, 1)">
+                            <button class="copy-btn" data-target="rgbaValue" title="Copy RGBA">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="format-item">
+                        <label class="format-label">HSL</label>
+                        <div class="format-value-container">
+                            <input type="text" id="hslValue" class="format-value" readonly value="hsl(0, 0%, 0%)">
+                            <button class="copy-btn" data-target="hslValue" title="Copy HSL">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="format-item">
+                        <label class="format-label">HSLA</label>
+                        <div class="format-value-container">
+                            <input type="text" id="hslaValue" class="format-value" readonly value="hsla(0, 0%, 0%, 1)">
+                            <button class="copy-btn" data-target="hslaValue" title="Copy HSLA">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-new-image" id="newImageBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    Upload New Image
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <span class="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
