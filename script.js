@@ -130,23 +130,23 @@ function getCanvasCoordinates(e) {
 canvas.addEventListener('mousemove', (e) => {
     const coords = getCanvasCoordinates(e);
 
-    // Position magnifier relative to the page, not viewport
-    const magnifierOffset = 20;
+    // Magnifier dimensions
     const magnifierWidth = 150;
     const magnifierHeight = 150;
+    const magnifierRadius = magnifierWidth / 2; // 75px
 
-    // Calculate position, ensuring it doesn't go off-screen
-    let left = e.pageX + magnifierOffset;
-    let top = e.pageY + magnifierOffset;
+    // Position magnifier centered on cursor
+    let left = e.pageX - magnifierRadius;
+    let top = e.pageY - magnifierRadius;
 
     // Check if magnifier would go off right edge
     if (left + magnifierWidth > window.pageXOffset + window.innerWidth) {
-        left = e.pageX - magnifierWidth - magnifierOffset;
+        left = e.pageX - magnifierWidth - 10;
     }
 
     // Check if magnifier would go off bottom edge
     if (top + magnifierHeight > window.pageYOffset + window.innerHeight) {
-        top = e.pageY - magnifierHeight - magnifierOffset;
+        top = e.pageY - magnifierHeight - 10;
     }
 
     // Show magnifier
@@ -157,7 +157,7 @@ canvas.addEventListener('mousemove', (e) => {
     // Draw magnified area
     const magnifierSize = 150;
     const zoom = 5;
-    const sourceSize = magnifierSize / zoom;
+    const sourceSize = magnifierSize / zoom; // 30px
 
     magnifierCanvas.width = magnifierSize;
     magnifierCanvas.height = magnifierSize;
@@ -165,7 +165,7 @@ canvas.addEventListener('mousemove', (e) => {
     magnifierCtx.imageSmoothingEnabled = false;
     magnifierCtx.drawImage(
         canvas,
-        coords.x - sourceSize / 2,
+        coords.x - sourceSize / 2, // Center the source on the cursor position
         coords.y - sourceSize / 2,
         sourceSize,
         sourceSize,
